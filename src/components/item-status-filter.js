@@ -1,4 +1,5 @@
 import React from 'react';
+import './item-staus-filter.css';
 
 const ItemStatusFilter = () => {
     return (
