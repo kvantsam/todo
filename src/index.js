@@ -22,6 +22,8 @@ const App = () => {
     { done: false, label: "Do not drink alchohol", important: false, id: 4 },
   ]);
 
+  const [deletedTodos, setDeletedTodos] = React.useState([]);
+
   const [filter, setFilter] = React.useState("all");
   const [filteredSubstring, setFilteredSubstring] = React.useState("");
   const [openModal, setOpenModal] = React.useState(false);
@@ -31,6 +33,8 @@ const App = () => {
   };
 
   const deleteTodo = (id) => {
+    const todoToDelete = todos.find((todo) => todo.id === id);
+    setDeletedTodos([...deletedTodos, todoToDelete]);
     const newTodos = todos.filter((todo) => todo.id !== id);
     setTodos(newTodos);
   };
@@ -39,6 +43,16 @@ const App = () => {
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.done = !todo.done;
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  const changeImportance = (id) => {
+    const newTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.important = !todo.important;
       }
       return todo;
     });
@@ -78,18 +92,33 @@ const App = () => {
         <ItemStatusFilter onFilter={filterTodo} filter={filter} />
       </div>
       {filter === "all" ? (
-        <TodoList todos={todos} onDelete={deleteTodo} onCheck={checkTodo} />
+        <TodoList
+          todos={todos}
+          onDelete={deleteTodo}
+          onCheck={checkTodo}
+          changeImportance={changeImportance}
+        />
       ) : filter === "active" ? (
         <TodoList
           todos={todos.filter((elem) => elem.done === false)}
           onDelete={deleteTodo}
           onCheck={checkTodo}
+          changeImportance={changeImportance}
         />
       ) : filter === "done" ? (
         <TodoList
           todos={todos.filter((elem) => elem.done === true)}
           onDelete={deleteTodo}
           onCheck={checkTodo}
+          changeImportance={changeImportance}
+        />
+      ) : filter === "deleted" ? (
+        <TodoList
+          deleted={true}
+          todos={deletedTodos}
+          onDelete={deleteTodo}
+          onCheck={checkTodo}
+          changeImportance={changeImportance}
         />
       ) : (
         <TodoList
@@ -98,6 +127,7 @@ const App = () => {
           )}
           onDelete={deleteTodo}
           onCheck={checkTodo}
+          changeImportance={changeImportance}
         />
       )}
       <button

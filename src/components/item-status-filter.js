@@ -31,6 +31,15 @@ const ItemStatusFilter = ({ filter, onFilter }) => {
       >
         Done
       </button>
+      <button
+        onClick={() => onFilter("deleted")}
+        type={"button"}
+        className={
+          filter === "deleted" ? "btn btn-info" : "btn btn-outline-secondary"
+        }
+      >
+        Deleted
+      </button>
     </div>
   );
 };
