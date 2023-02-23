@@ -1,4 +1,5 @@
 import React from "react";
+import CountdownTimer from "./timer";
 
 import "./todo-list-item.css";
 
@@ -51,6 +52,7 @@ const TodoListItem = ({
           >
             <i className="fa fa-trash-o" />
           </button>
+          <CountdownTimer initialTime={1000} />
         </>
       )}
     </span>
